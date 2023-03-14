@@ -20,9 +20,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
+//org.springframework.boot.autoconfigure
 
-
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "fr.loual.projectquizz")
 @Slf4j
 @AllArgsConstructor
 public class QuizzProjectApplication implements CommandLineRunner {
@@ -51,7 +51,7 @@ public class QuizzProjectApplication implements CommandLineRunner {
         listRole.forEach(roleT -> {
             if(roleT.getName().toString().contains("USER")) {
                 role.set(roleT);
-                System.out.println(role);
+                log.info(role.toString());
             }
         });
         Set<AppRole> setRole = new HashSet<>();
@@ -69,8 +69,9 @@ public class QuizzProjectApplication implements CommandLineRunner {
                 .setDescription("description 1").setUser(user1);
         quizzRepository.save(quizz);
 
-        List<Quizz> quizzes2 = quizzRepository.findByTagsTagContaining("premier").orElse(new ArrayList<>());
+        List<Quizz> quizzes2 = quizzRepository.findByTagsTagContaining("tag").orElse(new ArrayList<>());
         log.info("2" + quizzes2);
+        log.info("2 tag" + quizzes2.get(0).getTags());
 
         List<Quizz> quizzes3 = quizzRepository.findAllByTagsTag("premier").orElse(new ArrayList<>());
         log.info("3" + quizzes3);
@@ -80,4 +81,5 @@ public class QuizzProjectApplication implements CommandLineRunner {
         log.info("4" + quizzes4);
 
     }
+
 }

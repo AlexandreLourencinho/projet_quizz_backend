@@ -23,7 +23,7 @@ public class Quizz {
     private Long id;
     private String description;
     private String commentary;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "quizz_tags",
             joinColumns = @JoinColumn(name = "quizz_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id"))

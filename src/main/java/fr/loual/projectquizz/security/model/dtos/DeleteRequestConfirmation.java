@@ -3,18 +3,15 @@ package fr.loual.projectquizz.security.model.dtos;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
-
-/**
- * Model of message response for request to the controller
- * @author Alexandre Lourencinho
- * @version 1.0
- */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class MessageResponse {
+@Accessors(chain = true)
+public class DeleteRequestConfirmation {
 
-    private String message;
+    private boolean deleteRequest;
+    private boolean confirmedDeleteRequest;
 
 }

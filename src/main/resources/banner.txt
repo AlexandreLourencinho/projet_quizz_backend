@@ -10,3 +10,4 @@
   :::: Nom de l'application     :::: ${info.app.name}
   :::: Version de l'application :::: ${info.app.version}
   :::: Spring boot Version      :::: ${spring-boot.version}
+

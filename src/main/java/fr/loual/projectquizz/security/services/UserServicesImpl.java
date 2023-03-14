@@ -11,6 +11,7 @@ import fr.loual.projectquizz.security.repositories.AppUserRepository;
 import fr.loual.projectquizz.security.tools.SecurityConstants;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +34,7 @@ public class UserServicesImpl implements UserServices {
 
     private final AppUserRepository userRepository;
     private final AppRoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public AppUser findUserByUsername(String username) {
@@ -102,6 +104,7 @@ public class UserServicesImpl implements UserServices {
 
     @Override
     public AppUser updateUserInfo(SignupRequest user, String username) {
+        log.info("updating user...");
         AppUser oldUser = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UserNotFoundException("User", "username", username));
         Set<AppRole> enumRoles = user.getRoles().stream()
@@ -110,10 +113,16 @@ public class UserServicesImpl implements UserServices {
                 .collect(Collectors.toSet());
 
         oldUser.setUsername(user.getUsername())
-                .setPassword(user.getPassword())
+                .setPassword(this.passwordEncoder.encode(user.getPassword()))
                 .setRoles(enumRoles)
                 .setEmail(user.getEmail());
         return userRepository.save(oldUser);
+    }
+
+    @Override
+    public void deleteUser(AppUser user) {
+        log.info("deleting user" + user.getUsername() + "....");
+        userRepository.delete(user);
     }
 
 }

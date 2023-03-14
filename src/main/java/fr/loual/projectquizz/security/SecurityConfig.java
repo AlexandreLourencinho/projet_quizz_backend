@@ -3,6 +3,7 @@ package fr.loual.projectquizz.security;
 import fr.loual.projectquizz.security.jwt.AuthEntryPoint;
 import fr.loual.projectquizz.security.jwt.AuthTokenFilter;
 import fr.loual.projectquizz.security.jwt.JwtUtils;
+import fr.loual.projectquizz.security.model.enumeration.ERole;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -97,7 +98,8 @@ public class SecurityConfig {
         http.cors().and().csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unhauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.authorizeRequests().antMatchers("/user/signup/**", "/user/signin/**", "/h2-console/**", "/user/refreshToken").permitAll();
+        http.authorizeRequests().antMatchers("/user/signup/**", "/user/signing/**", "/h2-console/**", "/user/refreshToken", "/actuator/health", "/actuator/beans", "/actuator/env").permitAll();
+        http.authorizeRequests().antMatchers("/actuator/beans", "/actuator/env").hasRole(ERole.ROLE_ACTUATOR.toString().replace("ROLE_", ""));
         http.authorizeRequests().anyRequest().authenticated();
         http.headers().frameOptions().sameOrigin();
         http.authenticationProvider(authProvider());

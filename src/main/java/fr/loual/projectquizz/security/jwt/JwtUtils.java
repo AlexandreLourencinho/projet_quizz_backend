@@ -1,11 +1,14 @@
 package fr.loual.projectquizz.security.jwt;
 
+import fr.loual.projectquizz.security.tools.SecurityConstants;
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
+import java.net.http.HttpHeaders;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
@@ -107,6 +110,10 @@ public class JwtUtils {
         return getClaimFromToken(token, Claims::getSubject);
     }
 
+//    public String getRolesFromToken(String token) {
+//        return getClaimFromToken(token, Claims::getSubject);
+//    }
+
     /**
      * get token expiration date
      * @param token the jwt token
@@ -136,6 +143,24 @@ public class JwtUtils {
         log.info("checking if token is still valid...");
         final String username = getUsernameFromToken(token);
         return username.equals(user.getUsername()) && !isTokenExpired(token);
+    }
+
+    /**
+     * Get the given jwt token from the headers
+     * @param request the httpServlet request object where the headers are
+     * @return the token
+     */
+    public String getTokenFromHeaders(HttpServletRequest request) {
+        return request.getHeader(SecurityConstants.HEADER_TOKEN).substring(SecurityConstants.BEARER_SUBSTRING);
+    }
+
+    /**
+     * Get the given refresh token from the headers
+     * @param request the httpServlet request object where the headers are
+     * @return the token
+     */
+    public String getRefreshTokenFromHeaders(HttpServletRequest request) {
+        return request.getHeader(SecurityConstants.REFRESH_TOKEN).substring(SecurityConstants.REFRESH_SUBSTRING);
     }
 
 }

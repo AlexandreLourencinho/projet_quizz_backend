@@ -71,4 +71,6 @@ public interface UserServices {
      * @return the updated user
      */
     AppUser updateUserInfo(SignupRequest user, String username);
+
+    void deleteUser(AppUser user);
 }

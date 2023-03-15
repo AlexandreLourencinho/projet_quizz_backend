@@ -31,11 +31,12 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
     /**
      * internal filter for request management
-     * @param request the HttpServletRequest object
-     * @param response the HttpServletResponse object
+     *
+     * @param request     the HttpServletRequest object
+     * @param response    the HttpServletResponse object
      * @param filterChain FilterChain object provided by the servlet container giving a view into the invocation chain of a filtered request for a resource.
      * @throws ServletException Exception that can be thrown by the Servlet
-     * @throws IOException base exceptions which occur while reading or accessing files, directories and streams
+     * @throws IOException      base exceptions which occur while reading or accessing files, directories and streams
      */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -69,8 +70,9 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
     /**
      * Expired jxt management
+     *
      * @param request the httpservletrequest object
-     * @param e the ExpiredException error
+     * @param e       the ExpiredException error
      */
     public void manageExpiredToken(HttpServletRequest request, ExpiredJwtException e) {
         log.error("JWT Token is expired");

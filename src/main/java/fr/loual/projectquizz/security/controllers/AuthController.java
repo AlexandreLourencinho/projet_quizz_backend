@@ -264,8 +264,6 @@ public class AuthController {
             response.setMessage("can't delete the user");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
-
-
     }
 
     @GetMapping("/test")
